@@ -12,7 +12,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
- 
+    @Autowired
+    CustomSuccessHandler customSuccessHandler;
+    
+    /*@Autowired
+    DataSource dataSource;
+    
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception
+    {
+    	
+    	auth.jdbcAuthentication().dataSource(dataSource)
+    	.usersByUsernameQuery("select email , password from User where email=?")
+    	.authoritiesByUsernameQuery("select u1.email , u2.name from User u1 , Role u2 where u1.id=u2.user_id and u1.email=?");
+    }*/
+    
     @Autowired
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
@@ -27,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       http.authorizeRequests()
         .antMatchers("/", "/home").permitAll()
         //.antMatchers("/admin/**").access("hasRole('ADMIN')")
-        .and().formLogin().loginPage("/login")
+        .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
         .usernameParameter("email").passwordParameter("password")
         .and().csrf()
         .and().exceptionHandling().accessDeniedPage("/access_denied");

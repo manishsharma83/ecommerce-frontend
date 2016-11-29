@@ -13,16 +13,15 @@ import com.ecommerce.service.ProductService;
 
 
 @Controller
-@RequestMapping ("/admin")
 public class AdminController extends BaseController{
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping (value="/")
+	@RequestMapping (value="/admin")
 	public String getIndex(ModelMap model){
 		List<Product> products = productService.getAllProducts();
 		model.addAttribute("products", products);
 		model.addAttribute("user", getPrincipal());
-		return "admin-dashboard";
+		return "admin/admin-dashboard";
 	}
 }
