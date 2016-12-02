@@ -1,5 +1,7 @@
 package com.ecommercef.configuration;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomSuccessHandler customSuccessHandler;
     
-    /*@Autowired
+    @Autowired
     DataSource dataSource;
     
     @Autowired
@@ -23,27 +25,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     {
     	
     	auth.jdbcAuthentication().dataSource(dataSource)
-    	.usersByUsernameQuery("select email , password from User where email=?")
-    	.authoritiesByUsernameQuery("select u1.email , u2.name from User u1 , Role u2 where u1.id=u2.user_id and u1.email=?");
-    }*/
+    	.usersByUsernameQuery("select email , password from users where email=?")
+    	.authoritiesByUsernameQuery("select u1.email , u2.name from users u1 , roles u2 where u1.role_id=u2.id and u1.email=?");
+    }
     
-    @Autowired
+    /*@Autowired
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
      
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
-    }
+    }*/
      
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
         .antMatchers("/", "/home").permitAll()
-        //.antMatchers("/admin/**").access("hasRole('ADMIN')")
+        .antMatchers("/admin/**").access("hasRole('ADMIN')")
         .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
         .usernameParameter("email").passwordParameter("password")
-        .and().csrf()
+        //.and().csrf()
         .and().exceptionHandling().accessDeniedPage("/access_denied");
     }
 }

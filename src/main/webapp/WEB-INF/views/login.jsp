@@ -13,6 +13,7 @@
 		<div class="row">
 
 			<div class="col-md-12">
+				<c:url var="loginUrl" value="/login" />
 				<form action="${loginUrl}" method="POST">
 					<div class="form-group">
 						<label for="email">Email address:</label> <input type="email" class="form-control" id="email">
@@ -23,6 +24,7 @@
 					<!-- <div class="checkbox">
 						<label><input type="checkbox"> Remember me</label>
 					</div> -->
+					
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 			</div>

@@ -46,13 +46,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         List<String> roles = new ArrayList<String>();
  
         for (GrantedAuthority a : authorities) {
+        	System.out.println("GrantedAuthority : " + a.getAuthority());
             roles.add(a.getAuthority());
         }
  
         if (isDba(roles)) {
             url = "/db";
         } else if (isAdmin(roles)) {
-            url = "/admin";
+        	System.out.println("redirecting to home page " );
+            url = "/";
         } else if (isUser(roles)) {
             url = "/home";
         } else {
