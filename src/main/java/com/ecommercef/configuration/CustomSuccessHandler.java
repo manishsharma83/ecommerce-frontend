@@ -54,7 +54,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             url = "/db";
         } else if (isAdmin(roles)) {
         	System.out.println("redirecting to home page " );
-            url = "/";
+            url = "/admin/dashboard";
         } else if (isUser(roles)) {
             url = "/home";
         } else {

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -9,6 +10,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.html">SB Admin</a>
+                <c:url var="logoutUrl" value="/logout" /><a href="${logoutUrl}">Logout</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">

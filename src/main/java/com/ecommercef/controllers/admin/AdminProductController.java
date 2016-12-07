@@ -14,17 +14,16 @@ import com.ecommerce.service.ProductService;
 import com.ecommercef.controllers.BaseController;
 
 
-/*@Controller
-@RequestMapping (value="/admin/products")
-public class ProductController extends BaseController{
+@Controller
+public class AdminProductController extends BaseController{
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping (method = RequestMethod.GET)
+	@RequestMapping (value="/admin/products/list", method = RequestMethod.GET)
 	public String getProductList(ModelMap model){
 		List<Product> products = productService.getAllProducts();
 		model.addAttribute("products", products);
 		model.addAttribute("user", getPrincipal());
-		return "admin/admin-dashboard";
+		return "admin/products/list";
 	}
-}*/
+}

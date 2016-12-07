@@ -16,15 +16,15 @@
 				<c:url var="loginUrl" value="/login" />
 				<form action="${loginUrl}" method="POST">
 					<div class="form-group">
-						<label for="email">Email address:</label> <input type="email" class="form-control" id="email">
+						<label for="email">Email address:</label> <input type="email" class="form-control" id="email" name="email" />
 					</div>
 					<div class="form-group">
-						<label for="pwd">Password:</label> <input type="password" class="form-control" id="pwd">
+						<label for="password">Password:</label> <input type="password" class="form-control" id="password" name="password" />
 					</div>
 					<!-- <div class="checkbox">
 						<label><input type="checkbox"> Remember me</label>
 					</div> -->
-					
+					<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 			</div>

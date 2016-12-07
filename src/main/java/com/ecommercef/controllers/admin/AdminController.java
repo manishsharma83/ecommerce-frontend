@@ -16,22 +16,11 @@ import com.ecommercef.controllers.BaseController;
 
 @Controller
 public class AdminController extends BaseController{
-	@Autowired
-	private ProductService productService;
 	
 	@RequestMapping (value="/admin/dashboard")
 	public String getIndex(ModelMap model){
-		List<Product> products = productService.getAllProducts();
-		model.addAttribute("products", products);
-		model.addAttribute("user", getPrincipal());
+		
 		return "admin/admin-dashboard";
 	}
-	
-	@RequestMapping(value = { "/admin/dashboard" }, method = RequestMethod.GET)
-	public String addProducts(ModelMap model){
-		List<Product> products = productService.getAllProducts();
-		model.addAttribute("products", products);
-		model.addAttribute("user", getPrincipal());
-		return "admin/admin-dashboard";
-	}
+
 }

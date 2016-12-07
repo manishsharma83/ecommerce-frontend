@@ -29,10 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService{
         if(user==null){
             System.out.println("User not found");
             throw new UsernameNotFoundException("Username not found");
-        } else{
-        	System.out.println("user.getFirst_name : " + user.getFirst_name());
-        	System.out.println("getGrantedAuthorities: " + getGrantedAuthorities(user).toString());
-        }
+        } 
         
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
                  true, true, true, true, getGrantedAuthorities(user));
@@ -41,9 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService{
      
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getName()));
-        
-        System.out.print("authorities :"+authorities);
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return authorities;
     }
      

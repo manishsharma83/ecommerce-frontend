@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -18,6 +19,7 @@
 				<li><a href="#">About</a></li>
 				<li><a href="#">Services</a></li>
 				<li><a href="#">Contact</a></li>
+				<li><c:url var="logoutUrl" value="/logout" /><a href="${logoutUrl}">Logout</a></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
