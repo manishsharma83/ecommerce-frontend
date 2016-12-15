@@ -12,7 +12,7 @@
 		<div id="page-wrapper">
 	
 			<div class="container-fluid">
-	
+				<c:url var="productUrl" value="/admin/products" />
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -30,7 +30,11 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
+				<div class="row">
+					<div class="col-lg-2">
+						<a href="${productUrl}/add" class="btn btn-lg btn-primary">Add Product</a>
+					</div>
+				</div>
                 <div class="row">
                     <div class="col-lg-12">
                         <h2>Products</h2>
@@ -45,12 +49,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-	                                <c:forEach var="product" items="${products}}">
+	                                <c:forEach var="product" items="${products}">
 	                                    <tr>
 	                                        <td><c:out value="${product.name}"/></td>
 	                                        <td><c:out value="${product.productCategory.name}"/></td>
-	                                        <td><a href="#">Edit</a></td>
-	                                        <td><a href="#">Delete</a></td>
+	                                        <td><a href="${productUrl}/edit/<c:out value="${product.id}"/>">Edit</a></td>
+	                                        <td><a href="${productUrl}/delete/<c:out value="${product.id}"/>">Delete</a></td>
 	                                    </tr>
 	                                </c:forEach>
                                 </tbody>
