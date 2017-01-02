@@ -54,35 +54,38 @@
 
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" name="name" value="<c:out value="${product.name}"/>" class="form-control" />
+                                <%-- <input type="text" name="name" value="<c:out value="${product.name}"/>" class="form-control" /> --%>
+                                <form:input type="text" path="name" class="form-control" />
                             </div>
 
                             <div class="form-group">
                                 <label>Type</label>
-                                <input type="text" name="type" value="<c:out value="${product.type}"/>" class="form-control" />
+                                <%-- <input type="text" name="type" value="<c:out value="${product.type}"/>" class="form-control" /> --%>
+                                <form:input type="text" path="type" class="form-control" />
                             </div>
 
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" name="description" rows="3"><c:out value="${product.description}"/></textarea>
+                                <%-- <textarea class="form-control" name="description" rows="3"><c:out value="${product.description}"/></textarea> --%>
+                                <form:textarea path="description" class="form-control" />
                             </div>
 
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="text" name="price" value="<c:out value="${product.price}"/>" class="form-control" />
+                                <%-- <input type="text" name="price" value="<c:out value="${product.price}"/>" class="form-control" /> --%>
+                                <form:input type="text" path="price" class="form-control" />
                             </div>
 
                             <div class="form-group">
                                 <label>Category</label>
-                                <form:select path="productCategory.id" >
+                                <form:select path="productCategory.id" class="form-control" >
                                 	<form:options items="${productCategories}" itemValue="id" itemLabel="name" />
                                 </form:select>
-                                
                             </div>
 
                             <button type="submit" class="btn btn-lg btn-primary">Save</button>
                             <c:url var="productUrl" value="/admin/products" />
-                            <a href="${productUrl}/add" class="btn btn-lg btn-link">Cancel</a>
+                            <a href="${productUrl}/list" class="btn btn-lg btn-link">Cancel</a>
 
                         </form:form>
 

@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:url var="adminAppUrl" value="/admin" />
+
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -10,7 +12,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.html">SB Admin</a>
-                <c:url var="logoutUrl" value="/logout" /><a href="${logoutUrl}">Logout</a>
+                
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -108,7 +110,8 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        	<c:url var="logoutUrl" value="/logout" />
+                            <a href="${logoutUrl}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -116,6 +119,13 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
+                    <li class="">
+                        <a href="${adminAppUrl}/products/list"><i class="fa fa-fw fa-dashboard"></i> Products</a>
+                    </li>
+                    <li class="">
+                        <a href="${adminAppUrl}/product-categories/list"><i class="fa fa-fw fa-dashboard"></i> Product Categories</a>
+                    </li>
+                	<!-- 
                     <li class="active">
                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
@@ -151,6 +161,7 @@
                     <li>
                         <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
                     </li>
+                    -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
