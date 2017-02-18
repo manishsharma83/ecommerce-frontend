@@ -17,10 +17,8 @@
 	            </div>
 	
 	            <div class="col-md-9">
-					<div class="row">
-						<div class="col-md-3 pull-right">Hello <c:out value="${user}"/></div>
-					</div>
-	                <div class="row carousel-holder">
+					
+	                <!-- <div class="row carousel-holder">
 	
 	                    <div class="col-md-12">
 	                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -49,19 +47,21 @@
 	                        </div>
 	                    </div>
 	
-	                </div>
+	                </div> -->
 	
 	                <div class="row">
+	                	<c:url var="home" value="/" />
+	                	<c:url var="productImgBaseUrl" value="/resources/uploads/" />
+	                	<c:url var="baseUrl" value="/product" />
 						<c:forEach var="product" items="${products}">
 		                    <div class="col-sm-4 col-lg-4 col-md-4">
 		                        <div class="thumbnail">
-		                            <img src="http://placehold.it/320x150" alt="">
+		                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
+	                                <img width="320px" height="150px" src="${productImgBaseUrl}${product.id}.png" />
 		                            <div class="caption">
-		                                <h4><a href="#"><c:out value="${product.name}"/></a></h4>
-		                                <br/>
 		                                <h4 class="pull-right">$<c:out value="${product.price}"/></h4>
-		                                <br/>
-		                                <h4 class="pull-right"><c:out value="${product.productCategory.name}"/></h4>
+		                                <h4><a href="${baseUrl}/${product.id}"><c:out value="${product.name}"/></a></h4>
+		                                <!-- <h4 class="pull-right"><c:out value="${product.productCategory.name}"/></h4>  -->
 		                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
 		                            </div>
 		                            <div class="ratings">

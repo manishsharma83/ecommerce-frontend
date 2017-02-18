@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.model.Product;
@@ -40,16 +41,13 @@ public class AdminProductController extends BaseController{
 	private ProductCategoryService productCategoryService;
 	
 	@Autowired
-	private ProductCategory productCategory;
-	
-	@Autowired
 	private Product product;
 	
 	@RequestMapping (value="/admin/products/list", method = RequestMethod.GET)
 	public String getProductList(ModelMap model){
 		List<Product> products = productService.getAllProducts();
 		model.addAttribute("products", products);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/products/list";
 	}
 	
@@ -58,16 +56,17 @@ public class AdminProductController extends BaseController{
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		model.addAttribute("productCategories", productCategories);
 		model.addAttribute("product", product);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/products/edit";
 	}
 	
 	@RequestMapping (value="/admin/products/add", method = RequestMethod.POST)
-	public String addProductSubmit(@ModelAttribute("product") Product product, HttpServletRequest request){
+	public String addProductSubmit(@Valid @ModelAttribute("product") Product product, @RequestParam("file") MultipartFile file, HttpServletRequest request){
 		System.out.println("add post -> addProductSubmit executed");
-		/*MultipartFile image = product.getFile();
+		productService.addProduct(product);
+		MultipartFile image = product.getFile();
 		String rootDir = request.getSession().getServletContext().getRealPath("/");
-		path = Paths.get(rootDir + "resources/uploads/" + product.getId() + ".png");
+		path = Paths.get(rootDir + "/resources/uploads/products/" + product.getId() + ".png");
 		System.out.println("path: " + path);
 		if(image != null && !image.isEmpty()){
 			try{
@@ -76,8 +75,8 @@ public class AdminProductController extends BaseController{
 				e.printStackTrace();
 				throw new RuntimeException("Image save failed" + e);
 			}
-		}*/
-		productService.addProduct(product);
+		}
+		
 		return "redirect:/admin/products/list";
 	}
 	
@@ -87,7 +86,7 @@ public class AdminProductController extends BaseController{
 		model.addAttribute("productCategories", productCategories);
 		Product product = productService.getProduct(productId);
 		model.addAttribute("product", product);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/products/edit";
 	}
 	
@@ -104,7 +103,7 @@ public class AdminProductController extends BaseController{
 	public String confirmProductDelete(@PathVariable int productId, ModelMap model){
 		Product product = productService.getProduct(productId);
 		model.addAttribute("product", product);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/products/confirm-delete";
 	}
 

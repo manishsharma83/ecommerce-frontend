@@ -17,18 +17,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomSuccessHandler customSuccessHandler;
     
-    /*@Autowired
-    DataSource dataSource;
-    
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception
-    {
-    	System.out.println("Executing Security");
-    	auth.jdbcAuthentication().dataSource(dataSource)
-    	.usersByUsernameQuery("select email,password,true  from users where email=?")
-    	.authoritiesByUsernameQuery("select u1.email , u2.name from users u1 , roles u2 where u1.role_id=u2.id and u1.email=?");
-    }*/
-    
     @Autowired
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
@@ -45,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //.antMatchers("/admin/**").access("hasRole('ADMIN')")
         .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
         .usernameParameter("email").passwordParameter("password")
-        .and().csrf()
-        .and().exceptionHandling().accessDeniedPage("/access_denied");
+        .and().exceptionHandling().accessDeniedPage("/access_denied")
+        .and().csrf().disable();
     }
 }

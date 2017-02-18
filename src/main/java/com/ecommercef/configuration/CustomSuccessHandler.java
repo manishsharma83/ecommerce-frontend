@@ -24,6 +24,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
+    	System.out.println( "SimpleUrlAuthenticationSuccessHandler -> handle -> authentication : " + authentication.toString());
         String targetUrl = determineTargetUrl(authentication);
  
         if (response.isCommitted()) {
@@ -53,11 +54,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isDba(roles)) {
             url = "/db";
         } else if (isAdmin(roles)) {
-        	System.out.println("redirecting to home page " );
+        	System.out.println("redirecting to admin dashboard page " );
             url = "/admin/dashboard";
         } else if (isUser(roles)) {
-            url = "/home";
+        	System.out.println("redirecting to home page " );
+            url = "/";
         } else {
+        	System.out.println("redirecting to access denied " );
             url = "/accessDenied";
         }
  
@@ -65,7 +68,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
  
     private boolean isUser(List<String> roles) {
-        if (roles.contains("ROLE_USER")) {
+        if (roles.contains("ROLE_CUSTOMER")) {
             return true;
         }
         return false;

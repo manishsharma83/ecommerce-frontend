@@ -28,14 +28,14 @@ public class AdminProductCategoryController extends BaseController{
 	public String getProductList(ModelMap model){
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		model.addAttribute("productCategories", productCategories);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/product-categories/list";
 	}
 	
 	@RequestMapping (value="/admin/product-categories/add", method = RequestMethod.GET)
 	public String addProductCategory(ModelMap model){
 		model.addAttribute("productCategory", productCategory);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/product-categories/edit";
 	}
 	
@@ -52,7 +52,7 @@ public class AdminProductCategoryController extends BaseController{
 		model.addAttribute("productCategories", productCategories);
 		ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId);
 		model.addAttribute("productCategory", productCategory);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/product-categories/edit";
 	}
 	
@@ -69,7 +69,7 @@ public class AdminProductCategoryController extends BaseController{
 	public String confirmProductCategoryDelete(@PathVariable int productCategoryId, ModelMap model){
 		ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId);
 		model.addAttribute("productCategory", productCategory);
-		model.addAttribute("user", getPrincipal());
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/product-categories/confirm-delete";
 	}
 
