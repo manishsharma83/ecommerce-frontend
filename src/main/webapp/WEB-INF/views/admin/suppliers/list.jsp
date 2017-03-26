@@ -54,7 +54,7 @@
 	                                        <td>${supplier.user.first_name} ${supplier.user.last_name}</td>
 	                                        <td>${supplier.user.email}</td>
 	                                        <td><a href="${supplierUrl}/edit/${supplier.user.id}">Edit</a></td>
-	                                        <td><a href="${supplierUrl}/edit-supplier-inventory/${supplier.user.id}/list">Edit</a></td>
+	                                        <td><a href="${supplierUrl}/${supplier.user.id}/inventory/list">Edit Inventory</a></td>
 	                                        <td><a href="${supplierUrl}/confirm-delete/${supplier.user.id}">Delete</a></td>
 	                                    </tr>
 	                                </c:forEach>

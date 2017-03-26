@@ -31,31 +31,36 @@
                 </div>
                 <!-- /.row -->
 				<div class="row">
-					<div class="col-lg-2">
-						<a href="${supplierInventoryUrl}/add" class="btn btn-lg btn-primary">Add Supplier</a>
+					<div class="col-lg-2 pull-left">
+						<a href="${supplierInventoryUrl}/add" class="btn btn-lg btn-primary">Add Inventory</a>
+					</div>
+					<div class="col-lg-10 pull-right">
+						<c:url var="supplierUrl" value="/admin/suppliers" />
+						<a href="${supplierUrl}/list" class="btn btn-lg btn-primary">Back to Suppliers</a>
 					</div>
 				</div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Suppliers</h2>
+                        <h2>${userSupplier.user.first_name} ${userSupplier.user.last_name} Inventory</h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
+                                        <th>Product Name</th>
+                                        <th>Product Title</th>
+                                        <th>Quantity</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-	                                <c:forEach var="supplier" items="${suppliers}">
+	                                <c:forEach var="inventory" items="${inventoryList}">
 	                                    <tr>
-	                                        <td>${supplier.user.first_name} ${supplier.user.last_name}</td>
-	                                        <td>${supplier.user.email}</td>
-	                                        <td><a href="${supplierUrl}/edit/${supplier.user.id}">Edit</a></td>
-	                                        <td><a href="${supplierUrl}/edit-supplier-inventory/${supplier.user.id}/list">Edit</a></td>
-	                                        <td><a href="${supplierUrl}/confirm-delete/${supplier.user.id}">Delete</a></td>
+	                                        <td>${inventory.product.name}</td>
+	                                        <td>${inventory.product_title}</td>
+	                                        <td>${inventory.quantity}</td>
+	                                        <td><a href="${supplierInventoryUrl}/edit/${inventory.id}">Edit</a></td>
+	                                        <td><a href="${supplierInventoryUrl}/confirm-delete/${inventory.id}">Delete</a></td>
 	                                    </tr>
 	                                </c:forEach>
                                 </tbody>

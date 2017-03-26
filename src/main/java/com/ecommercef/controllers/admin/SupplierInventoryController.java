@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ecommerce.model.Inventory;
-import com.ecommerce.model.Role;
-import com.ecommerce.model.User;
+import com.ecommerce.model.Product;
 import com.ecommerce.model.UserSupplier;
 import com.ecommerce.service.InventoryService;
-import com.ecommerce.service.RoleService;
-import com.ecommerce.service.UserService;
+import com.ecommerce.service.ProductCategoryService;
+import com.ecommerce.service.ProductService;
 import com.ecommerce.service.UserSupplierService;
 import com.ecommercef.controllers.BaseController;
 
@@ -25,20 +24,20 @@ import com.ecommercef.controllers.BaseController;
 public class SupplierInventoryController extends BaseController {
 	
 	@Autowired
-	private User user;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
 	private UserSupplierService userSupplierService;
 	
 	@Autowired
-	private RoleService roleService;
-	
+	private Inventory inventory;
+
 	@Autowired
 	private InventoryService inventoryService;
 
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private Product product;
+	
 	@RequestMapping(value = "/admin/suppliers/{userSupplierId}/inventory/list", method = RequestMethod.GET)
 	public String getUserSupplierInventoryList(@PathVariable int userSupplierId, ModelMap model) {
 		UserSupplier userSupplier = userSupplierService.getSupplier(userSupplierId);
@@ -51,23 +50,21 @@ public class SupplierInventoryController extends BaseController {
 
 	@RequestMapping(value = "/admin/suppliers/{userSupplierId}/inventory/add", method = RequestMethod.GET)
 	public String getAddUserSupplierInventoryForm(@PathVariable int userSupplierId, ModelMap model) {
+		List<Product> products = productService.getAllProducts();
+		model.addAttribute("products", products);
 		UserSupplier userSupplier = userSupplierService.getSupplier(userSupplierId);
-		Inventory inventory = inventoryService.getProductInventoryBySupplier(supplier, product);
 		model.addAttribute("userSupplier", userSupplier);
+		model.addAttribute("inventory", inventory);
 		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/suppliers/inventory/edit";
 	}
 
 	@RequestMapping(value = "/admin/suppliers/{userSupplierId}/inventory/add", method = RequestMethod.POST)
 	public String submitAddUserSupplierInventoryForm(@PathVariable int userSupplierId, @Valid @ModelAttribute("inventory") Inventory inventory) {
+		Product product = productService.getProduct(inventory.getProduct().getId());
+		inventory.setProduct(product);
 		UserSupplier userSupplier = userSupplierService.getSupplier(userSupplierId);
-		user = userSupplier.getUser();
-		Role role = roleService.getRole(2); // 2 role belongs to supplier
-		user.setRole(role);
-		System.out.println("submitAddUserSupplierForm : " + userSupplier.toString());
-		//user.setFirst_name(userSupplier.user.first_name);
-		userService.addUser(user);
-		userSupplier.setUser(user);
+		inventory.setSupplier(userSupplier);
 		inventoryService.addProductInventory(inventory);
 		System.out.println("Supplier inventory added successfully!!!");
 		return "redirect:/admin/suppliers/" + userSupplierId +"/inventory/list";
@@ -75,21 +72,40 @@ public class SupplierInventoryController extends BaseController {
 	
 	@RequestMapping(value = "/admin/suppliers/{userSupplierId}/inventory/edit/{userSupplierInventoryId}", method = RequestMethod.GET)
 	public String getEditUserSupplierInventoryForm(@PathVariable int userSupplierId, @PathVariable int userSupplierInventoryId, ModelMap model) {
-		UserSupplier userSupplier = userSupplierService.getSupplier(userSupplierId);
-		model.addAttribute("userSupplier", userSupplier);
+		List<Product> products = productService.getAllProducts();
+		model.addAttribute("products", products);
+		Inventory inventory = inventoryService.getProductInventory(userSupplierInventoryId); 
+		model.addAttribute("userSupplier", inventory.getSupplier());
+		model.addAttribute("inventory", inventory);
 		model.addAttribute("loggedInUser", getPrincipal());
 		return "admin/suppliers/inventory/edit";
 	}
 
 	@RequestMapping(value = "/admin/suppliers/{userSupplierId}/inventory/edit/{userSupplierInventoryId}", method = RequestMethod.POST)
-	public String submitEditUserSupplierInventoryForm(@PathVariable int userSupplierId, @PathVariable int userSupplierInventoryId, @Valid @ModelAttribute("userSupplier") UserSupplier userSupplierForm) {
-		UserSupplier userSupplier = userSupplierService.getSupplier(userSupplierId);
-		System.out.println("userSupplier fetched" + userSupplier.toString());
-		userSupplierForm.setId(userSupplier.getId());
-		userSupplierForm.getUser().setId(userSupplier.getUser().getId());
-		userSupplierForm.getUser().setRole(userSupplier.getUser().getRole());
-		userSupplierService.updateSupplier(userSupplierForm);
-		System.out.println("Supplier added successfully!!!");
+	public String submitEditUserSupplierInventoryForm(@PathVariable int userSupplierId, @PathVariable int userSupplierInventoryId, @Valid @ModelAttribute("inventory") Inventory inventoryForm) {
+		Inventory inventory = inventoryService.getProductInventory(userSupplierInventoryId);
+		Product product = productService.getProduct(inventoryForm.getProduct().getId());
+		inventory.setProduct(product);
+		inventory.setQuantity(inventoryForm.getQuantity());
+		inventory.setProduct_title(inventoryForm.getProduct_title());
+		inventoryService.updateProductInventory(inventory);
+		System.out.println("Product Inventory added successfully!!!");
+		return "redirect:/admin/suppliers/" + userSupplierId +"/inventory/list";
+	}
+	
+	
+	@RequestMapping (value="/admin/suppliers/{userSupplierId}/inventory/confirm-delete/{userSupplierInventoryId}", method = RequestMethod.GET)
+	public String confirmProductCategoryDelete(@PathVariable int userSupplierId, @PathVariable int userSupplierInventoryId, ModelMap model){
+		Inventory inventory = inventoryService.getProductInventory(userSupplierInventoryId);
+		model.addAttribute("inventory", inventory);
+		model.addAttribute("loggedInUser", getPrincipal());
+		return "admin/product-categories/confirm-delete";
+	}
+
+	@RequestMapping (value="/admin/suppliers/{userSupplierId}/inventory/delete", method = RequestMethod.POST)
+	public String productCategoryDelete(@PathVariable int userSupplierId, @ModelAttribute("inventory") Inventory inventory){
+		System.out.println("Product Inventory to be deleted: inventory.id : " + inventory.getId());
+		//inventoryService.deleteProductInventoryBySupplier(userId, productId);
 		return "redirect:/admin/suppliers/" + userSupplierId +"/inventory/list";
 	}
 }

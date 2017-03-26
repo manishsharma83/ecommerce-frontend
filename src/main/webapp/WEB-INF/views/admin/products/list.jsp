@@ -45,6 +45,7 @@
                                         <th></th>
                                         <th>Name</th>
                                         <th>Category</th>
+                                        <th>Supplier</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -53,11 +54,12 @@
 	                                <c:forEach var="product" items="${products}">
 	                                    <tr>
 	                                        <td>
-	                                        	<c:url var="productImgUrl" value="/resources/uploads/${product.id}.png" />
+	                                        	<c:url var="productImgUrl" value="/resources/uploads/products/${product.image_name}" />
 	                                        	<img width="40px" src="${productImgUrl}" />
 	                                        </td>
 	                                        <td><c:out value="${product.name}"/></td>
 	                                        <td><c:out value="${product.productCategory.name}"/></td>
+	                                        <td><c:out value="${product.supplier.user.first_name} ${product.supplier.user.last_name}"/></td>
 	                                        <td><a href="${productUrl}/edit/<c:out value="${product.id}"/>">Edit</a></td>
 	                                        <td><a href="${productUrl}/confirm-delete/<c:out value="${product.id}"/>">Delete</a></td>
 	                                    </tr>

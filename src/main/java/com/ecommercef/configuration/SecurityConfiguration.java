@@ -1,7 +1,5 @@
 package com.ecommercef.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       http.authorizeRequests()
         .antMatchers("/", "/home").permitAll()
         //.antMatchers("/admin/**").access("hasRole('ADMIN')")
+        .antMatchers("/user/**").access("hasRole('CUSTOMER')")
         .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
         .usernameParameter("email").passwordParameter("password")
         .and().exceptionHandling().accessDeniedPage("/access_denied")

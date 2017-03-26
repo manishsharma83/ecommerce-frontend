@@ -23,7 +23,7 @@ public class ProductDetailsController extends BaseController{
 	private ProductCategoryService productCategoryService;
 	
 	@RequestMapping (value={"/product/{productId}"})
-	public String getIndexByCategory(@PathVariable int productId, ModelMap model){
+	public String getProductDetail(@PathVariable int productId, ModelMap model){
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		model.addAttribute("productCategories", productCategories);
 		Product selectedProduct = productService.getProduct(productId);

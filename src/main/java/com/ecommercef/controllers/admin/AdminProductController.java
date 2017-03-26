@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +40,9 @@ public class AdminProductController extends BaseController{
 	private ProductCategoryService productCategoryService;
 	
 	@Autowired
+	private UserSupplierService userSupplierService;
+	
+	@Autowired
 	private Product product;
 	
 	@RequestMapping (value="/admin/products/list", method = RequestMethod.GET)
@@ -53,6 +55,8 @@ public class AdminProductController extends BaseController{
 	
 	@RequestMapping (value="/admin/products/add", method = RequestMethod.GET)
 	public String addProduct(ModelMap model, HttpServletRequest request){
+		List<UserSupplier> userSuppliers = userSupplierService.getAllSuppliers();
+		model.addAttribute("userSuppliers", userSuppliers);
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		model.addAttribute("productCategories", productCategories);
 		model.addAttribute("product", product);
@@ -62,26 +66,50 @@ public class AdminProductController extends BaseController{
 	
 	@RequestMapping (value="/admin/products/add", method = RequestMethod.POST)
 	public String addProductSubmit(@Valid @ModelAttribute("product") Product product, @RequestParam("file") MultipartFile file, HttpServletRequest request){
-		System.out.println("add post -> addProductSubmit executed");
-		productService.addProduct(product);
-		MultipartFile image = product.getFile();
-		String rootDir = request.getSession().getServletContext().getRealPath("/");
-		path = Paths.get(rootDir + "/resources/uploads/products/" + product.getId() + ".png");
-		System.out.println("path: " + path);
-		if(image != null && !image.isEmpty()){
-			try{
-				image.transferTo(new File(path.toString()));
-			}catch(Exception e){
-				e.printStackTrace();
-				throw new RuntimeException("Image save failed" + e);
-			}
+		System.out.println("addProductSubmit executed");
+		String productImageName = this.handleProductImageUpload(request, product);
+		if(!productImageName.isEmpty()){
+			product.setImage_name(productImageName);
 		}
+		productService.addProduct(product);
 		
 		return "redirect:/admin/products/list";
 	}
 	
+	/* This function will be used upload product image from add/edit form.
+	 * 
+	 * @param HttpServletRequest request
+	 * @param Product product Submitted product form
+	 * 
+	 * @return String product image name uploaded on sevrer.
+	 */
+	private String handleProductImageUpload(HttpServletRequest request, Product product){
+		MultipartFile image = product.getFile();
+		String productImageName = image.getOriginalFilename();
+		if(!productImageName.isEmpty()){
+			String productImageNameExt = productImageName.substring(productImageName.lastIndexOf('.'));
+			productImageName = product.getId() + productImageNameExt;
+			String rootDir = request.getSession().getServletContext().getRealPath("/");
+			path = Paths.get(rootDir + "/resources/uploads/products/" + productImageName);
+			if(image != null && !image.isEmpty()){
+				try{
+					System.out.println("Product Image upload: " + path.toString());
+					image.transferTo(new File(path.toString()));
+					
+				}catch(Exception e){
+					e.printStackTrace();
+					throw new RuntimeException("Image save failed" + e);
+				}
+			}
+		}
+		
+		return productImageName;
+	}
+	
 	@RequestMapping (value="/admin/products/edit/{productId}", method = RequestMethod.GET)
 	public String editProduct(@PathVariable int productId, ModelMap model){
+		List<UserSupplier> userSuppliers = userSupplierService.getAllSuppliers();
+		model.addAttribute("userSuppliers", userSuppliers);
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		model.addAttribute("productCategories", productCategories);
 		Product product = productService.getProduct(productId);
@@ -91,9 +119,13 @@ public class AdminProductController extends BaseController{
 	}
 	
 	@RequestMapping (value="/admin/products/edit/{productId}", method = RequestMethod.POST)
-	public String editProductSubmit(@ModelAttribute("product") Product product, @PathVariable int productId){
+	public String editProductSubmit(@ModelAttribute("product") Product product, @PathVariable int productId, @RequestParam("file") MultipartFile file, HttpServletRequest request){
 		System.out.println("edit post -> editProductSubmit executed");
 		product.setId(productId);
+		String productImageName = this.handleProductImageUpload(request, product);
+		if(!productImageName.isEmpty()){
+			product.setImage_name(productImageName);
+		}
 		productService.updateProduct(product);
 		//return "admin/products/edit";
 		return "redirect:/admin/products/list";

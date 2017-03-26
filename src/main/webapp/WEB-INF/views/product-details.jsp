@@ -12,7 +12,7 @@
 	    
 	    <!-- Page Content -->
 	    <div class="container">
-	
+			<c:url var="baseUrl" value="/" />
 	        <div class="row">
 	
 	            <div class="col-md-3">
@@ -20,18 +20,19 @@
 	            </div>
 	
 	            <div class="col-md-9">
-					<c:url var="productImgBaseUrl" value="/resources/uploads/" />
+					<c:url var="productImgBaseUrl" value="/resources/uploads/products/" />
 	                <div class="thumbnail">
-	                    <img width="800px" height="300px" class="img-responsive" src="${productImgBaseUrl}${selectedProduct.id}.png" alt="">
+	                    <img width="100px" class="img-responsive" src="${productImgBaseUrl}${selectedProduct.image_name}" alt="">
 	                    <div class="caption-full">
 	                        <h4 class="pull-right">$${selectedProduct.price}</h4>
-	                        <h4><!-- <a href="#">Product Name</a> --> ${selectedProduct.name}</h4>
+	                        <h4>${selectedProduct.name}</h4>
 	                        <p>${selectedProduct.description}</p>
 	                    </div>
 	                    <div class="ratings clearfix">
 	                    	<div class="pull-right">
-	                        	<a class="btn btn-success">Add to cart</a>
-	                        	<a class="btn btn-success">Chekout</a>
+	                    		<c:url var="productImgBaseUrl" value="/resources/uploads/products/" />
+	                        	<a href="${baseUrl}cart/add/${selectedProduct.id}" class="btn btn-success">Add to cart</a>
+	                        	<a href="${baseUrl}checkout" class="btn btn-success">Buy now</a>
 	                    	</div>
 	                    </div>
 	                    <br/>

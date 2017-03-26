@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-<%@ include file="../common_resource.jsp"%>
+<%@ include file="../../common_resource.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 </head>
 
 <body>
 	<div id="wrapper">
-		<%@ include file="../header.jsp"%>
+		<%@ include file="../../header.jsp"%>
 	
 		<div id="page-wrapper">
 	
@@ -18,12 +18,13 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
+                        	${userSupplier.user.first_name} ${userSupplier.user.last_name} ->
                             <c:choose>
-								<c:when test="${productId > 0}">
-									Edit Product
+								<c:when test="${inventory.id > 0}">
+									Edit Inventory
 								</c:when>
 								<c:otherwise>
-									Add Product
+									Add Inventory
 								</c:otherwise>
 							</c:choose>
                         </h1>
@@ -42,55 +43,37 @@
                 <div class="row">
                     <div class="col-lg-12">
 						<c:choose>
-							<c:when test="${product.id > 0}">
-								<c:url var="productSubmitURL" value="/admin/products/edit/${product.id}" />
+							<c:when test="${inventory.id > 0}">
+								<c:url var="inventorySubmitURL" value="/admin/suppliers/${userSupplier.user.id}/inventory/edit/${inventory.id}" />
 							</c:when>
 							<c:otherwise>
-								<c:url var="productSubmitURL" value="/admin/products/add" />
+								<c:url var="inventorySubmitURL" value="/admin/suppliers/${userSupplier.user.id}/inventory/add" />
 							</c:otherwise>
 						</c:choose>
-						<c:out value="${productSubmitURL}"/>
-                        <form:form role="form" name="adminProductForm" action="${productSubmitURL}" method="POST" modelAttribute="product" enctype="multipart/form-data">
+						<c:out value="${inventorySubmitURL}"/>
+                        <form:form role="form" name="adminInventoryForm" action="${inventorySubmitURL}" method="POST" modelAttribute="inventory">
 
                             <div class="form-group">
-                                <label>Name</label>
-                                <%-- <input type="text" name="name" value="<c:out value="${product.name}"/>" class="form-control" /> --%>
-                                <form:input type="text" path="name" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Type</label>
-                                <%-- <input type="text" name="type" value="<c:out value="${product.type}"/>" class="form-control" /> --%>
-                                <form:input type="text" path="type" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Image</label>
-                                <form:input type="file" path="file" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Description</label>
-                                <%-- <textarea class="form-control" name="description" rows="3"><c:out value="${product.description}"/></textarea> --%>
-                                <form:textarea path="description" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Price</label>
-                                <%-- <input type="text" name="price" value="<c:out value="${product.price}"/>" class="form-control" /> --%>
-                                <form:input type="text" path="price" class="form-control" />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Category</label>
-                                <form:select path="productCategory.id" class="form-control" >
-                                	<form:options items="${productCategories}" itemValue="id" itemLabel="name" />
+                                <label>Product</label>
+                                <form:select path="product.id" class="form-control" >
+                                	<option value="">Choose Product</option>
+                                	<form:options items="${products}" itemValue="id" itemLabel="name" />
                                 </form:select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Product Title</label>
+                                <form:input type="text" path="product_title" class="form-control" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <form:input type="text" path="quantity" class="form-control" />
                             </div>
 							<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
                             <button type="submit" class="btn btn-lg btn-primary">Save</button>
-                            <c:url var="productUrl" value="/admin/products" />
-                            <a href="${productUrl}/list" class="btn btn-lg btn-link">Cancel</a>
+                            <c:url var="inventoryUrl" value="/admin/suppliers/${inventory.supplier.user.id}/inventory" />
+                            <a href="${inventoryUrl}/list" class="btn btn-lg btn-link">Cancel</a>
 
                         </form:form>
 
@@ -103,7 +86,7 @@
 		</div>
 		<!-- /#page-wrapper -->
 	</div>
-	<%@ include file="../js-include.jsp"%>
+	<%@ include file="../../js-include.jsp"%>
 
 </body>
 

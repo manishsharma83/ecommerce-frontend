@@ -27,7 +27,7 @@ body {
 }
 
 .caption h4 {
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .ratings {
@@ -51,4 +51,14 @@ body {
 
 footer {
     margin: 50px 0;
+}
+
+.home-page-item-card .item-image {
+	display: block;
+	height: 280px;
+	overflow: hidden;
+}
+
+.home-page-item-card .caption h4.price{
+	margin: 10px;
 }

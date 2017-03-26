@@ -51,16 +51,18 @@
 	
 	                <div class="row">
 	                	<c:url var="home" value="/" />
-	                	<c:url var="productImgBaseUrl" value="/resources/uploads/" />
-	                	<c:url var="baseUrl" value="/product" />
+	                	<c:url var="productImgBaseUrl" value="/resources/uploads/products/" />
+	                	<c:url var="productDetailUrl" value="/product" />
 						<c:forEach var="product" items="${products}">
 		                    <div class="col-sm-4 col-lg-4 col-md-4">
-		                        <div class="thumbnail">
+		                        <div class="thumbnail home-page-item-card">
 		                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
-	                                <img width="320px" height="150px" src="${productImgBaseUrl}${product.id}.png" />
-		                            <div class="caption">
-		                                <h4 class="pull-right">$<c:out value="${product.price}"/></h4>
-		                                <h4><a href="${baseUrl}/${product.id}"><c:out value="${product.name}"/></a></h4>
+	                                <a href="#" class="item-image">
+	                                	<img src="${productImgBaseUrl}${product.image_name}" />
+	                                </a>
+	                                <div class="caption">
+		                                <h4 class="pull-right price">$<c:out value="${product.price}"/></h4>
+		                                <h4><a href="${productDetailUrl}/${product.id}"><c:out value="${product.name}"/></a></h4>
 		                                <!-- <h4 class="pull-right"><c:out value="${product.productCategory.name}"/></h4>  -->
 		                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
 		                            </div>
