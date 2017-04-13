@@ -22,7 +22,7 @@ import com.ecommerce.service.UserSupplierService;
 import com.ecommercef.controllers.BaseController;
 
 @Controller
-public class SupplierController extends BaseController {
+public class AdminSupplierController extends BaseController {
 	
 	@Autowired
 	private User user;

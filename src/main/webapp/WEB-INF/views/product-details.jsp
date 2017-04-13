@@ -15,11 +15,11 @@
 			<c:url var="baseUrl" value="/" />
 	        <div class="row">
 	
-	            <div class="col-md-3">
+	            <%-- <div class="col-md-3">
 	                <%@ include file="left-nav.jsp" %>
-	            </div>
+	            </div> --%>
 	
-	            <div class="col-md-9">
+	            <div class="col-md-12">
 					<c:url var="productImgBaseUrl" value="/resources/uploads/products/" />
 	                <div class="thumbnail">
 	                    <img width="100px" class="img-responsive" src="${productImgBaseUrl}${selectedProduct.image_name}" alt="">

@@ -55,10 +55,10 @@
                         <a href="${appUrl}admin/suppliers/list"><i class="fa fa-fw fa-table"></i> Suppliers</a>
                     </li>
                     <li class="">
-                        <a href="${appUrl}admin/product-categories/list"><i class="fa fa-fw fa-table"></i> Customers</a>
+                        <a href="${appUrl}admin/customers/list"><i class="fa fa-fw fa-table"></i> Customers</a>
                     </li>
                     <li class="">
-                        <a href="${appUrl}admin/product-categories/list"><i class="fa fa-fw fa-table"></i> Orders</a>
+                        <a href="${appUrl}admin/orders/list"><i class="fa fa-fw fa-table"></i> Orders</a>
                     </li>
                 	<!-- 
                     <li class="active">
