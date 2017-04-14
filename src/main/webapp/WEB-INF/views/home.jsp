@@ -64,7 +64,7 @@
 		                                <h4 class="pull-right price">$<c:out value="${product.price}"/></h4>
 		                                <h4><a href="${productDetailUrl}/${product.id}"><c:out value="${product.name}"/></a></h4>
 		                                <!-- <h4 class="pull-right"><c:out value="${product.productCategory.name}"/></h4>  -->
-		                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+		                                <p>See more snippets like this online store item.</p>
 		                            </div>
 		                            <div class="ratings">
 		                                <p class="pull-right">15 reviews</p>

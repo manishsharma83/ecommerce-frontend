@@ -34,7 +34,7 @@ public class UserCartController extends BaseController{
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping (value="/cart/list", method = RequestMethod.GET)
+	@RequestMapping (value="/user/cart/list", method = RequestMethod.GET)
 	public String getUserCartList(ModelMap model){
 		model.addAttribute("loggedInUser", getPrincipal());
 		List<UserCart> userCartItems = userCartService.getAllCartItems(this.loggedInUser.getId());
@@ -43,7 +43,7 @@ public class UserCartController extends BaseController{
 		return "user-cart";
 	}
 	
-	@RequestMapping (value="/cart/add/{productId}", method = RequestMethod.GET)
+	@RequestMapping (value="/user/cart/add/{productId}", method = RequestMethod.GET)
 	public String addCartItemSubmit(@PathVariable int productId){
 		getPrincipal();
 		UserCart existingUserCartItem = userCartService.findCartItemByProductId(productId);
@@ -59,22 +59,22 @@ public class UserCartController extends BaseController{
 			userCartService.updateCartItem(existingUserCartItem);
 		}
 		
-		return "redirect:/cart/list";
+		return "redirect:/user/cart/list";
 	}
 	
-	@RequestMapping (value="/cart/update/{cartItemId}", method = RequestMethod.POST)
+	@RequestMapping (value="/user/cart/update/{cartItemId}", method = RequestMethod.POST)
 	public String editCartItemSubmit(@ModelAttribute("productCategory") UserCart userCartForm, @PathVariable int cartItemId){
 		UserCart userCart = userCartService.getCartItem(cartItemId);
 		userCart.setQuantity(userCartForm.getQuantity());
 		userCartService.updateCartItem(userCart);
-		return "redirect:/cart/list";
+		return "redirect:/user/cart/list";
 	}
 	
-	@RequestMapping (value="/cart/delete/{cartItemId}", method = RequestMethod.GET)
+	@RequestMapping (value="/user/cart/delete/{cartItemId}", method = RequestMethod.GET)
 	public String confirmProductCategoryDelete(@PathVariable int cartItemId, ModelMap model){
 		UserCart userCart = userCartService.getCartItem(cartItemId);
 		userCartService.deleteCartItem(userCart);
-		return "redirect:/cart/list";
+		return "redirect:/user/cart/list";
 	}
 
 }

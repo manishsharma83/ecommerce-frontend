@@ -31,8 +31,8 @@
 	                    <div class="ratings clearfix">
 	                    	<div class="pull-right">
 	                    		<c:url var="productImgBaseUrl" value="/resources/uploads/products/" />
-	                        	<a href="${baseUrl}cart/add/${selectedProduct.id}" class="btn btn-success">Add to cart</a>
-	                        	<a href="${baseUrl}checkout" class="btn btn-success">Buy now</a>
+	                        	<a href="${baseUrl}user/cart/add/${selectedProduct.id}" class="btn btn-success">Add to cart</a>
+	                        	<a href="${baseUrl}user/checkout" class="btn btn-success">Buy now</a>
 	                    	</div>
 	                    </div>
 	                    <br/>

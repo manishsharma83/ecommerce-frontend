@@ -41,9 +41,9 @@ public class AuthController extends BaseController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String getSignUpForm(ModelMap model) {
+		model.addAttribute("loggedInUser", getPrincipal());
 		model.addAttribute("user", user);
 		model.addAttribute("userCustomer", userCustomer);
-		model.addAttribute("loggedInUser", getPrincipal());
 		return "registration";
 	}
 
@@ -59,7 +59,8 @@ public class AuthController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/login")
-	public String getLoginForm(ModelMap map) {
+	public String getLoginForm(ModelMap model) {
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "login";
 	}
 
@@ -73,7 +74,8 @@ public class AuthController extends BaseController {
 	}
 
 	@RequestMapping(value = "/access_denied")
-	public String getAccessDeniedForm(ModelMap map) {
+	public String getAccessDeniedForm(ModelMap map, ModelMap model) {
+		model.addAttribute("loggedInUser", getPrincipal());
 		return "access_denied";
 	}
 }
