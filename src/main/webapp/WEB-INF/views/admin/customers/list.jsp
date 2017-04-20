@@ -12,7 +12,7 @@
 		<div id="page-wrapper">
 	
 			<div class="container-fluid">
-				<c:url var="orderUrl" value="/admin/orders" />
+				<c:url var="customerUrl" value="/admin/customers" />
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -21,7 +21,7 @@
                                 <i class="fa fa-dashboard"></i>  <a href="${appUrl}admin/dashboard">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> Orders
+                                <i class="fa fa-table"></i> Customers
                             </li>
                         </ol>
                     </div>
@@ -29,26 +29,24 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Orders</h2>
+                        <h2>Customers</h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Order No.</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Order Date</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-	                                <c:forEach var="order" items="${orders}">
+	                                <c:forEach var="customer" items="${customers}">
 	                                    <tr>
-	                                        <td><c:out value="${order.order_no}"/></td>
-	                                        <td><c:out value="${order.description}"/></td>
-	                                        <td><c:out value="${order.total_amount}"/></td>
-	                                        <td><c:out value="${order.created_on}"/></td>
-	                                        <td><a href="${orderUrl}/view/${order.id}">View Order</a></td>
+	                                        <td>${customer.user.first_name} ${customer.user.last_name}</td>
+	                                        <td>${customer.user.email}</td>
+	                                        <td><a href="${customerUrl}/edit/${customer.user.id}">Edit</a></td>
+	                                        <td><a href="${customerUrl}/${customer.user.id}/confirm-delete">Delete</a></td>
 	                                    </tr>
 	                                </c:forEach>
                                 </tbody>

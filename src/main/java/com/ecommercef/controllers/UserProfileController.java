@@ -38,6 +38,7 @@ public class UserProfileController extends BaseController{
 		User user = userService.getUser(this.loggedInUser.getId());
 		userCustomerForm.getUser().setId(user.getId());
 		userCustomerForm.getUser().setRole(user.getRole());
+		userCustomerForm.getUser().setPassword(user.getPassword());
 		userService.updateUser(userCustomerForm.getUser());
 		UserCustomer userCustomer = userCustomerService.getCustomer(this.loggedInUser.getId());
 		userCustomerForm.setId(userCustomer.getId());
